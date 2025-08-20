@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NPT Clan - FreeFire</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
@@ -195,8 +195,8 @@
             content: '';
             position: absolute;
             bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
+            right: 50%;
+            transform: translateX(50%);
             width: 150px;
             height: 4px;
             background: linear-gradient(90deg, #00a2ff, #ffaa00);
@@ -493,6 +493,7 @@
             line-height: 1.7;
             font-size: 1.1rem;
             color: #e0e0e0;
+            text-align: justify;
         }
         
         .clan-stats {
@@ -704,7 +705,7 @@
     <!-- Schermata di Benvenuto -->
     <div id="welcome-screen">
         <div class="welcome-text">NPT Clan</div>
-        <div class="welcome-subtext">Never Play Together - FreeFire Clan</div>
+        <div class="welcome-subtext">Never Play Together - عائلة FreeFire</div>
         <div class="loading-bar">
             <div class="loading-progress"></div>
         </div>
@@ -718,16 +719,16 @@
     
     <!-- Navigazione -->
     <nav>
-        <button class="nav-btn active" data-target="leaders">Leader & Admin</button>
-        <button class="nav-btn" data-target="members">Tutti i Membri</button>
-        <button class="nav-btn" data-target="about">Chi Siamo</button>
+        <button class="nav-btn active" data-target="leaders">القادة والمشرفون</button>
+        <button class="nav-btn" data-target="members">جميع الأعضاء</button>
+        <button class="nav-btn" data-target="about">من نحن</button>
     </nav>
     
     <!-- Contenuto Principale -->
     <div class="container">
         <!-- Sezione Leader/Admin -->
         <section id="leaders" class="section active">
-            <h2 class="section-title">Leader & Admin del Clan</h2>
+            <h2 class="section-title">قادة ومشرفو العائلة</h2>
             <div class="cards-container" id="leaders-container">
                 <!-- I leader e admin verranno inseriti qui via JavaScript -->
             </div>
@@ -735,12 +736,12 @@
         
         <!-- Sezione Membri -->
         <section id="members" class="section">
-            <h2 class="section-title">Tutti i Membri del Clan</h2>
+            <h2 class="section-title">جميع أعضاء العائلة</h2>
             <div class="filters">
-                <button class="filter-btn active" data-filter="all">Tutti</button>
-                <button class="filter-btn" data-filter="admin">Admin</button>
-                <button class="filter-btn" data-filter="leader">Leader</button>
-                <button class="filter-btn" data-filter="member">Membri</button>
+                <button class="filter-btn active" data-filter="all">الكل</button>
+                <button class="filter-btn" data-filter="admin">المشرفون</button>
+                <button class="filter-btn" data-filter="leader">القادة</button>
+                <button class="filter-btn" data-filter="member">الأعضاء</button>
             </div>
             <div class="cards-container" id="members-container">
                 <!-- Tutti i membri verranno inseriti qui via JavaScript -->
@@ -749,34 +750,34 @@
         
         <!-- Sezione About -->
         <section id="about" class="section">
-            <h2 class="section-title">Chi Siamo</h2>
+            <h2 class="section-title">من نحن</h2>
             <div class="about-content">
                 <p>
-                    NPT Clan è una comunità di giocatori FreeFire appassionati e competitivi. Il nostro clan è stato fondato nel 2021 con l'obiettivo di riunire i migliori giocatori e competere nei tornei più prestigiosi.
+                    NPT Clanة
                 </p>
                 <p>
-                    Il nostro motto è "Never Play Together" perché giochiamo sempre insieme! Il nome è ironico e rappresenta il nostro spirito di squadra e collaborazione.
+                    شعارنا هو "Never Play Together" لأننا نلعب دائمًا معًا! الاسم ساخر ويمثل روح الفريق والتعاون لدينا.
                 </p>
                 <p>
-                    Siamo sempre alla ricerca di nuovi talenti per rafforzare il nostro roster. Se sei un giocatore dedicato e vuoi entrare a far parte della nostra famiglia, contattaci su FreeFire!
+                    نحن دائمًا في بحث عن المواهب الجديدة لتعزيز قائمتنا. إذا كنت لاعبًا ملتزمًا وتريد الانضمام إلى عائلتنا، اتصل بنا على FreeFire!
                 </p>
                 
                 <div class="clan-stats">
                     <div class="stat-item">
                         <div class="stat-number">55</div>
-                        <div class="stat-label">Membri</div>
+                        <div class="stat-label">الأعضاء</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-number">12°</div>
-                        <div class="stat-label">Rank Italia</div>
+                        <div class="stat-label">ترتيب إيطاليا</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-number">3</div>
-                        <div class="stat-label">Tornei vinti</div>
+                        <div class="stat-label">البطولات الفائزة</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-number">2021</div>
-                        <div class="stat-label">Fondazione</div>
+                        <div class="stat-label">سنة التأسيس</div>
                     </div>
                 </div>
             </div>
@@ -790,14 +791,14 @@
             <div class="footer-tagline">Never Play Together</div>
             
             <div class="social-links">
-                <a href="https://discord.gg/qBp9R3rs" class="social-link"><i class="fab fa-discord"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
                 <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
                 <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
                 <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
             </div>
             
             <div class="copyright">
-                &copy; 2025 NPT Clan - FreeFire. Tutti i diritti riservati.
+                &copy; 2023 NPT Clan - FreeFire. جميع الحقوق محفوظة.
             </div>
         </div>
     </footer>
@@ -807,7 +808,7 @@
         // Dati dei membri del clan
         const clanMembers = [
             // Admin
-            { name: "LINUX", id: "", role: "admin", rank: "Heroic", wins: 342, kd: 4.2 },
+            { name: "LINUX", id: "AKIRA789", role: "admin", rank: "Heroic", wins: 342, kd: 4.2 },
             { name: "BROKEN", id: "", role: "admin", rank: "Heroic", wins: 298, kd: 3.9 },
             { name: "ZYROXA", id: "", role: "admin", rank: "Heroic", wins: 298, kd: 3.9 },
             { name: "REVANA", id: "", role: "admin", rank: "Heroic", wins: 298, kd: 3.9 },
@@ -994,11 +995,26 @@
             card.className = `card ${member.role}`;
             card.style.animationDelay = `${(index % 10) * 0.1 + 0.1}s`;
             
-            // Traduci il ruolo in italiano
+            // Traduci il ruolo in arabo
             let roleText = '';
-            if (member.role === 'admin') roleText = 'Admin';
-            if (member.role === 'leader') roleText = 'Leader';
-            if (member.role === 'member') roleText = 'Membro';
+            if (member.role === 'admin') roleText = 'مشرف';
+            if (member.role === 'leader') roleText = 'قائد';
+            if (member.role === 'member') roleText = 'عضو';
+            
+            // Traduci il rank in arabo
+            let rankText = member.rank;
+            const rankTranslations = {
+                'Heroic': 'بطل',
+                'Diamond': 'الماس',
+                'Platinum': 'بلاتين',
+                'Gold': 'ذهبي',
+                'Silver': 'فضي',
+                'Bronze': 'برونزي'
+            };
+            
+            if (rankTranslations[member.rank]) {
+                rankText = rankTranslations[member.rank];
+            }
             
             // Icona in base al ruolo
             let iconClass = 'fa-user';
@@ -1008,22 +1024,22 @@
             card.innerHTML = `
                 <div class="card-header">
                     <div class="player-name">${member.name}</div>
-                    <div class="player-id">${member.id ? 'ID: ' + member.id : ''}</div>
+                    <div class="player-id">${member.id ? 'الهوية: ' + member.id : ''}</div>
                     <div class="player-role">${roleText}</div>
                 </div>
                 <div class="card-body">
                     <div class="player-icon">
                         <i class="fas ${iconClass}"></i>
                     </div>
-                    <div class="player-rank">${member.rank}</div>
+                    <div class="player-rank">${rankText}</div>
                     <div class="player-stats">
                         <div class="stat">
                             <div class="stat-value">${member.wins}</div>
-                            <div class="stat-name">Vittorie</div>
+                            <div class="stat-name">انتصارات</div>
                         </div>
                         <div class="stat">
                             <div class="stat-value">${member.kd}</div>
-                            <div class="stat-name">K/D</div>
+                            <div class="stat-name">نسبة القتل</div>
                         </div>
                     </div>
                 </div>
@@ -1033,4 +1049,4 @@
         }
     </script>
 </body>
-</html>
+</html
