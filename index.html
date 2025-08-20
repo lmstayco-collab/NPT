@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NPT Clan - FreeFire</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a1a 0%, #15152b 100%);
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        /* Schermata di benvenuto */
+        #welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #000000 0%, #0a0a2a 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1.5s ease-out;
+        }
+        
+        .welcome-text {
+            font-size: 5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            animation: neon 1.5s ease-in-out infinite alternate;
+            margin-bottom: 2rem;
+        }
+        
+        .welcome-subtext {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            animation: fadeIn 2s ease-in-out;
+        }
+        
+        .loading-bar {
+            width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin-top: 2rem;
+            overflow: hidden;
+        }
+        
+        .loading-progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00a2ff, #ffaa00);
+            border-radius: 4px;
+            animation: loading 3s ease-in-out;
+        }
+        
+        @keyframes loading {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        
+        @keyframes neon {
+            from {
+                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0073e6, 0 0 20px #0073e6, 0 0 25px #0073e6;
+            }
+            to {
+                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0073e6, 0 0 40px #0073e6, 0 0 50px #0073e6;
+            }
+        }
+        
+        /* Header */
+        header {
+            background: rgba(10, 10, 30, 0.9);
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            border-bottom: 2px solid #00a2ff;
+            box-shadow: 0 5px 20px rgba(0, 162, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .clan-name {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #00a2ff, #ffaa00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(0, 162, 255, 0.5);
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+        
+        .clan-tag {
+            font-size: 1.2rem;
+            color: #ffaa00;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        /* Navigazione */
+        nav {
+            background: rgba(15, 15, 40, 0.9);
+            padding: 1.2rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            border-bottom: 1px solid #2a2a5a;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav button {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        nav button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 162, 255, 0.2), transparent);
+            transition: all 0.5s;
+        }
+        
+        nav button:hover::before {
+            left: 100%;
+        }
+        
+        nav button:hover, nav button.active {
+            background: rgba(0, 162, 255, 0.15);
+            color: #00a2ff;
+            box-shadow: 0 0 15px rgba(0, 162, 255, 0.3);
+        }
+        
+        /* Contenuto principale */
+        .container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            background: linear-gradient(90deg, #00a2ff, #ffaa00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(0, 162, 255, 0.3);
+            position: relative;
+            padding-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 4px;
+            background: linear-gradient(90deg, #00a2ff, #ffaa00);
+            border-radius: 4px;
+        }
+        
+        /* Cards */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .card {
+            background: linear-gradient(145deg, rgba(15, 15, 40, 0.9), rgba(10, 10, 30, 0.9));
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.4s;
+            border: 1px solid rgba(42, 42, 90, 0.5);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00a2ff, #ffaa00, #00a2ff);
+            z-index: -1;
+            border-radius: 17px;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 162, 255, 0.2);
+        }
+        
+        .card:hover::before {
+            opacity: 1;
+            animation: border-glow 2s linear infinite;
+        }
+        
+        @keyframes border-glow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .card-header {
+            padding: 1.2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(42, 42, 90, 0.5);
+            position: relative;
+        }
+        
+        .admin .card-header {
+            background: linear-gradient(90deg, rgba(255, 51, 102, 0.2), rgba(255, 51, 102, 0.1));
+        }
+        
+        .leader .card-header {
+            background: linear-gradient(90deg, rgba(255, 170, 0, 0.2), rgba(255, 170, 0, 0.1));
+        }
+        
+        .member .card-header {
+            background: linear-gradient(90deg, rgba(0, 162, 255, 0.2), rgba(0, 162, 255, 0.1));
+        }
+        
+        .player-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.3rem;
+        }
+        
+        .player-id {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-top: 0.3rem;
+            font-weight: 500;
+        }
+        
+        .player-role {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 0.6rem;
+            background: rgba(0, 0, 0, 0.3);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .card-body {
+            padding: 1.8rem 1.2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .player-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 2.2rem;
+            border: 3px solid #00a2ff;
+            box-shadow: 0 0 20px rgba(0, 162, 255, 0.4);
+            background: rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .card:hover .player-icon {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(0, 162, 255, 0.6);
+        }
+        
+        .admin .player-icon {
+            border-color: #ff3366;
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.4);
+            color: #ff3366;
+        }
+        
+        .admin:hover .player-icon {
+            box-shadow: 0 0 30px rgba(255, 51, 102, 0.6);
+        }
+        
+        .leader .player-icon {
+            border-color: #ffaa00;
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.4);
+            color: #ffaa00;
+        }
+        
+        .leader:hover .player-icon {
+            box-shadow: 0 0 30px rgba(255, 170, 0, 0.6);
+        }
+        
+        .member .player-icon {
+            border-color: #00a2ff;
+            box-shadow: 0 0 20px rgba(0, 162, 255, 0.4);
+            color: #00a2ff;
+        }
+        
+        .player-rank {
+            background: linear-gradient(45deg, #ffaa00, #ff6600);
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-top: 0.8rem;
+            box-shadow: 0 5px 15px rgba(255, 170, 0, 0.3);
+        }
+        
+        .player-stats {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(42, 42, 90, 0.5);
+        }
+        
+        .stat {
+            text-align: center;
+            position: relative;
+        }
+        
+        .stat-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #00a2ff;
+            margin-bottom: 0.3rem;
+        }
+        
+        .admin .stat-value {
+            color: #ff3366;
+        }
+        
+        .leader .stat-value {
+            color: #ffaa00;
+        }
+        
+        .stat-name {
+            font-size: 0.8rem;
+            color: #aaa;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Sezioni */
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        /* Animazioni */
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+        .card:nth-child(5) { animation-delay: 0.5s; }
+        .card:nth-child(6) { animation-delay: 0.6s; }
+        .card:nth-child(7) { animation-delay: 0.7s; }
+        .card:nth-child(8) { animation-delay: 0.8s; }
+        .card:nth-child(9) { animation-delay: 0.9s; }
+        .card:nth-child(10) { animation-delay: 1.0s; }
+        .card:nth-child(11) { animation-delay: 1.1s; }
+        .card:nth-child(12) { animation-delay: 1.2s; }
+        .card:nth-child(13) { animation-delay: 1.3s; }
+        .card:nth-child(14) { animation-delay: 1.4s; }
+        .card:nth-child(15) { animation-delay: 1.5s; }
+        .card:nth-child(16) { animation-delay: 1.6s; }
+        .card:nth-child(17) { animation-delay: 1.7s; }
+        .card:nth-child(18) { animation-delay: 1.8s; }
+        .card:nth-child(19) { animation-delay: 1.9s; }
+        .card:nth-child(20) { animation-delay: 2.0s; }
+        
+        /* Filtri */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            background: rgba(15, 15, 40, 0.8);
+            border: 1px solid rgba(42, 42, 90, 0.5);
+            color: #aaa;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: linear-gradient(90deg, rgba(0, 162, 255, 0.2), rgba(0, 162, 255, 0.1));
+            color: #00a2ff;
+            border-color: #00a2ff;
+            box-shadow: 0 0 15px rgba(0, 162, 255, 0.2);
+        }
+        
+        /* About Section */
+        .about-content {
+            background: linear-gradient(145deg, rgba(15, 15, 40, 0.9), rgba(10, 10, 30, 0.9));
+            padding: 2.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(42, 42, 90, 0.5);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 3rem;
+        }
+        
+        .about-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            font-size: 1.1rem;
+            color: #e0e0e0;
+        }
+        
+        .clan-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .stat-item {
+            margin: 1rem;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            min-width: 150px;
+            border: 1px solid rgba(42, 42, 90, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #00a2ff, #ffaa00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: #aaa;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 30, 0.9);
+            padding: 3rem 1.5rem;
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(42, 42, 90, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #00a2ff, #ffaa00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .footer-tagline {
+            color: #ffaa00;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.2);
+            color: #00a2ff;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            border: 1px solid rgba(42, 42, 90, 0.5);
+        }
+        
+        .social-link:hover {
+            background: linear-gradient(90deg, rgba(0, 162, 255, 0.2), rgba(0, 162, 255, 0.1));
+            color: #00a2ff;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 162, 255, 0.2);
+        }
+        
+        .copyright {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .welcome-text {
+                font-size: 3.5rem;
+            }
+            
+            .clan-name {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .welcome-text {
+                font-size: 2.5rem;
+            }
+            
+            .cards-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            nav {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            nav button {
+                padding: 0.6rem 1.2rem;
+                font-size: 1rem;
+            }
+            
+            .filters {
+                gap: 0.5rem;
+            }
+            
+            .filter-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .about-content {
+                padding: 1.5rem;
+            }
+            
+            .stat-item {
+                min-width: 120px;
+                padding: 1rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .social-links {
+                gap: 1rem;
+            }
+            
+            .social-link {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .welcome-text {
+                font-size: 2rem;
+            }
+            
+            .clan-name {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-item {
+                min-width: 100px;
+                padding: 0.8rem;
+            }
+            
+            .stat-number {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+    
+    <!-- Schermata di Benvenuto -->
+    <div id="welcome-screen">
+        <div class="welcome-text">NPT Clan</div>
+        <div class="welcome-subtext">Never Play Together - FreeFire Clan</div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+    
+    <!-- Header -->
+    <header>
+        <h1 class="clan-name">NPT Clan</h1>
+        <div class="clan-tag">Never Play Together</div>
+    </header>
+    
+    <!-- Navigazione -->
+    <nav>
+        <button class="nav-btn active" data-target="leaders">Leader & Admin</button>
+        <button class="nav-btn" data-target="members">Tutti i Membri</button>
+        <button class="nav-btn" data-target="about">Chi Siamo</button>
+    </nav>
+    
+    <!-- Contenuto Principale -->
+    <div class="container">
+        <!-- Sezione Leader/Admin -->
+        <section id="leaders" class="section active">
+            <h2 class="section-title">Leader & Admin del Clan</h2>
+            <div class="cards-container" id="leaders-container">
+                <!-- I leader e admin verranno inseriti qui via JavaScript -->
+            </div>
+        </section>
+        
+        <!-- Sezione Membri -->
+        <section id="members" class="section">
+            <h2 class="section-title">Tutti i Membri del Clan</h2>
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">Tutti</button>
+                <button class="filter-btn" data-filter="admin">Admin</button>
+                <button class="filter-btn" data-filter="leader">Leader</button>
+                <button class="filter-btn" data-filter="member">Membri</button>
+            </div>
+            <div class="cards-container" id="members-container">
+                <!-- Tutti i membri verranno inseriti qui via JavaScript -->
+            </div>
+        </section>
+        
+        <!-- Sezione About -->
+        <section id="about" class="section">
+            <h2 class="section-title">Chi Siamo</h2>
+            <div class="about-content">
+                <p>
+                    NPT Clan è una comunità di giocatori FreeFire appassionati e competitivi. Il nostro clan è stato fondato nel 2021 con l'obiettivo di riunire i migliori giocatori e competere nei tornei più prestigiosi.
+                </p>
+                <p>
+                    Il nostro motto è "Never Play Together" perché giochiamo sempre insieme! Il nome è ironico e rappresenta il nostro spirito di squadra e collaborazione.
+                </p>
+                <p>
+                    Siamo sempre alla ricerca di nuovi talenti per rafforzare il nostro roster. Se sei un giocatore dedicato e vuoi entrare a far parte della nostra famiglia, contattaci su FreeFire!
+                </p>
+                
+                <div class="clan-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">55</div>
+                        <div class="stat-label">Membri</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">12°</div>
+                        <div class="stat-label">Rank Italia</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Tornei vinti</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">2021</div>
+                        <div class="stat-label">Fondazione</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">NPT Clan</div>
+            <div class="footer-tagline">Never Play Together</div>
+            
+            <div class="social-links">
+                <a href="https://discord.gg/qBp9R3rs" class="social-link"><i class="fab fa-discord"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2025 NPT Clan - FreeFire. Tutti i diritti riservati.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Dati dei membri del clan
+        const clanMembers = [
+            // Admin
+            { name: "LINUX", id: "", role: "admin", rank: "Heroic", wins: 342, kd: 4.2 },
+            { name: "BROKEN", id: "", role: "admin", rank: "Heroic", wins: 298, kd: 3.9 },
+            { name: "ZYROXA", id: "", role: "admin", rank: "Heroic", wins: 298, kd: 3.9 },
+            { name: "REVANA", id: "", role: "admin", rank: "Heroic", wins: 298, kd: 3.9 },
+            { name: "AKIRA", id: "", role: "admin", rank: "Heroic", wins: 298, kd: 3.9 },
+            
+            // Leader
+            { name: "THUNDER", id: "THUNDER01", role: "leader", rank: "Heroic", wins: 420, kd: 4.8 },
+            { name: "RAVEN", id: "RAVEN02", role: "leader", rank: "Heroic", wins: 385, kd: 4.5 },
+            
+            // Membri
+            { name: "HYPE", id: "THUNDER01", role: "member", rank: "Diamond", wins: 158, kd: 2.9 },
+            { name: "STOOT", id: "RAVEN02", role: "member", rank: "Diamond", wins: 152, kd: 2.8 },
+            { name: "GON", id: "SHADOW03", role: "member", rank: "Platinum", wins: 145, kd: 2.7 },
+            { name: "YUSHI", id: "PHOENIX04", role: "member", rank: "Platinum", wins: 138, kd: 2.6 },
+            { name: "Blaze", id: "BLAZE05", role: "member", rank: "Platinum", wins: 132, kd: 2.5 },
+            { name: "Frost", id: "FROST06", role: "member", rank: "Platinum", wins: 126, kd: 2.4 },
+            { name: "Viper", id: "VIPER07", role: "member", rank: "Platinum", wins: 121, kd: 2.3 },
+            { name: "Ghost", id: "GHOST08", role: "member", rank: "Gold", wins: 115, kd: 2.2 },
+            { name: "Storm", id: "STORM09", role: "member", rank: "Gold", wins: 109, kd: 2.1 },
+            { name: "Wolf", id: "WOLF10", role: "member", rank: "Gold", wins: 104, kd: 2.0 },
+            { name: "Hunter", id: "HUNTER11", role: "member", rank: "Gold", wins: 98, kd: 1.9 },
+            { name: "Delta", id: "DELTA12", role: "member", rank: "Gold", wins: 93, kd: 1.8 },
+            { name: "Rocket", id: "ROCKET13", role: "member", rank: "Silver", wins: 87, kd: 1.7 },
+            { name: "Cobra", id: "COBRA14", role: "member", rank: "Silver", wins: 82, kd: 1.6 },
+            { name: "Alpha", id: "ALPHA15", role: "member", rank: "Silver", wins: 76, kd: 1.5 },
+            { name: "Bravo", id: "BRAVO16", role: "member", rank: "Silver", wins: 71, kd: 1.4 },
+            { name: "Charlie", id: "CHARLIE17", role: "member", rank: "Silver", wins: 65, kd: 1.3 },
+            { name: "Eagle", id: "EAGLE18", role: "member", rank: "Bronze", wins: 60, kd: 1.2 },
+            { name: "Falcon", id: "FALCON19", role: "member", rank: "Bronze", wins: 54, kd: 1.1 },
+            { name: "Hawk", id: "HAWK20", role: "member", rank: "Bronze", wins: 49, kd: 1.0 },
+            { name: "Jaguar", id: "JAGUAR21", role: "member", rank: "Bronze", wins: 43, kd: 0.9 },
+            { name: "Lion", id: "LION22", role: "member", rank: "Bronze", wins: 38, kd: 0.8 },
+            { name: "Mamba", id: "MAMBA23", role: "member", rank: "Bronze", wins: 32, kd: 0.7 },
+            { name: "Ninja", id: "NINJA24", role: "member", rank: "Bronze", wins: 27, kd: 0.6 },
+            { name: "Panther", id: "PANTHER25", role: "member", rank: "Bronze", wins: 21, kd: 0.5 },
+            { name: "Python", id: "PYTHON26", role: "member", rank: "Bronze", wins: 16, kd: 0.4 },
+            { name: "Raider", id: "RAIDER27", role: "member", rank: "Bronze", wins: 10, kd: 0.3 },
+            { name: "Scorpion", id: "SCORPION28", role: "member", rank: "Bronze", wins: 5, kd: 0.2 },
+            { name: "Serpent", id: "SERPENT29", role: "member", rank: "Bronze", wins: 3, kd: 0.1 },
+            { name: "Sniper", id: "SNIPER30", role: "member", rank: "Bronze", wins: 1, kd: 0.1 },
+            { name: "Spartan", id: "SPARTAN31", role: "member", rank: "Bronze", wins: 0, kd: 0.0 },
+            { name: "Spectre", id: "SPECTRE32", role: "member", rank: "Bronze", wins: 0, kd: 0.0 },
+            { name: "Trooper", id: "TROOPER33", role: "member", rank: "Bronze", wins: 0, kd: 0.0 },
+            { name: "Warrior", id: "WARRIOR34", role: "member", rank: "Bronze", wins: 0, kd: 0.0 },
+            { name: "Zephyr", id: "ZEPHYR35", role: "member", rank: "Bronze", wins: 0, kd: 0.0 },
+            { name: "Titan", id: "TITAN36", role: "member", rank: "Bronze", wins: 0, kd: 0.0 },
+            { name: "Vortex", id: "VORTEX37", role: "member", rank: "Bronze", wins: 0, kd: 0.0 },
+            { name: "Wraith", id: "WRAITH38", role: "member", rank: "Bronze", wins: 0, kd: 0.0 },
+            { name: "Xterminator", id: "XTERM39", role: "member", rank: "Bronze", wins: 0, kd: 0.0 },
+            { name: "Yeti", id: "YETI40", role: "member", rank: "Bronze", wins: 0, kd: 0.0 },
+            { name: "Zeus", id: "ZEUS41", role: "member", rank: "Bronze", wins: 0, kd: 0.0 },
+            { name: "Neo", id: "NEO42", role: "member", rank: "Bronze", wins: 0, kd: 0.0 },
+            { name: "Morph", id: "MORPH43", role: "member", rank: "Bronze", wins: 0, kd: 0.0 },
+            { name: "Cypher", id: "CYPHER44", role: "member", rank: "Bronze", wins: 0, kd: 0.0 },
+            { name: "Matrix", id: "MATRIX45", role: "member", rank: "Bronze", wins: 0, kd: 0.0 }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animazione schermata di benvenuto
+            setTimeout(function() {
+                document.getElementById('welcome-screen').style.opacity = '0';
+                setTimeout(function() {
+                    document.getElementById('welcome-screen').style.display = 'none';
+                }, 1500);
+            }, 3000);
+            
+            // Inizializzazione particles.js
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 100, density: { enable: true, value_area: 800 } },
+                    color: { value: "#00a2ff" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#00a2ff",
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 3,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "repulse" },
+                        onclick: { enable: true, mode: "push" },
+                        resize: true
+                    }
+                },
+                retina_detect: true
+            });
+            
+            // Navigazione tra sezioni
+            const navButtons = document.querySelectorAll('.nav-btn');
+            const sections = document.querySelectorAll('.section');
+            
+            navButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const target = this.getAttribute('data-target');
+                    
+                    // Aggiorna bottoni attivi
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Mostra sezione target
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === target) {
+                            section.classList.add('active');
+                        }
+                    });
+                });
+            });
+            
+            // Filtri membri
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // Aggiorna bottoni attivi
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Filtra le card
+                    const cards = document.querySelectorAll('#members-container .card');
+                    cards.forEach(card => {
+                        if (filter === 'all' || card.classList.contains(filter)) {
+                            card.style.display = 'block';
+                            setTimeout(() => {
+                                card.style.opacity = 1;
+                                card.style.transform = 'translateY(0)';
+                            }, 50);
+                        } else {
+                            card.style.opacity = 0;
+                            card.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                card.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                });
+            });
+            
+            // Genera le card per i membri
+            generateMembersCards();
+        });
+        
+        function generateMembersCards() {
+            const leadersContainer = document.getElementById('leaders-container');
+            const membersContainer = document.getElementById('members-container');
+            
+            // Ordina i membri per ruolo (prima admin, poi leader, poi membri)
+            clanMembers.sort((a, b) => {
+                const roleOrder = { admin: 1, leader: 2, member: 3 };
+                return roleOrder[a.role] - roleOrder[b.role];
+            });
+            
+            clanMembers.forEach((member, index) => {
+                const card = createMemberCard(member, index);
+                
+                // Aggiungi alla sezione appropriata
+                if (member.role === 'admin' || member.role === 'leader') {
+                    leadersContainer.appendChild(card);
+                }
+                
+                membersContainer.appendChild(card.cloneNode(true));
+            });
+        }
+        
+        function createMemberCard(member, index) {
+            const card = document.createElement('div');
+            card.className = `card ${member.role}`;
+            card.style.animationDelay = `${(index % 10) * 0.1 + 0.1}s`;
+            
+            // Traduci il ruolo in italiano
+            let roleText = '';
+            if (member.role === 'admin') roleText = 'Admin';
+            if (member.role === 'leader') roleText = 'Leader';
+            if (member.role === 'member') roleText = 'Membro';
+            
+            // Icona in base al ruolo
+            let iconClass = 'fa-user';
+            if (member.role === 'admin') iconClass = 'fa-crown';
+            if (member.role === 'leader') iconClass = 'fa-star';
+            
+            card.innerHTML = `
+                <div class="card-header">
+                    <div class="player-name">${member.name}</div>
+                    <div class="player-id">${member.id ? 'ID: ' + member.id : ''}</div>
+                    <div class="player-role">${roleText}</div>
+                </div>
+                <div class="card-body">
+                    <div class="player-icon">
+                        <i class="fas ${iconClass}"></i>
+                    </div>
+                    <div class="player-rank">${member.rank}</div>
+                    <div class="player-stats">
+                        <div class="stat">
+                            <div class="stat-value">${member.wins}</div>
+                            <div class="stat-name">Vittorie</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">${member.kd}</div>
+                            <div class="stat-name">K/D</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+    </script>
+</body>
+</html>
